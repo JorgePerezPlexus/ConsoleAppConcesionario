@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dboConcesionariosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Concesionarios">
+          <Key>
+            <PropertyRef Name="concesionarioID" />
+          </Key>
+          <Property Name="concesionarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="direccionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Direcciones">
+          <Key>
+            <PropertyRef Name="direccionID" />
+          </Key>
+          <Property Name="direccionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="poblacion" Type="varchar" MaxLength="50" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="stockID" />
+          </Key>
+          <Property Name="stockID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="concesionarioID" Type="int" />
+          <Property Name="vehiculoID" Type="int" />
+        </EntityType>
+        <EntityType Name="Vehiculos">
+          <Key>
+            <PropertyRef Name="vehiculoID" />
+          </Key>
+          <Property Name="vehiculoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marca" Type="varchar" MaxLength="50" />
+          <Property Name="modelo" Type="varchar" MaxLength="50" />
+          <Property Name="km" Type="int" />
+          <Property Name="vendido" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <Association Name="FK__Concesion__direc__4BAC3F29">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="0..1" />
+          <End Role="Concesionarios" Type="Self.Concesionarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="direccionID" />
+            </Principal>
+            <Dependent Role="Concesionarios">
+              <PropertyRef Name="direccionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__concesion__52593CB8">
+          <End Role="Concesionarios" Type="Self.Concesionarios" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concesionarios">
+              <PropertyRef Name="concesionarioID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="concesionarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__vehiculoI__5165187F">
+          <End Role="Vehiculos" Type="Self.Vehiculos" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehiculos">
+              <PropertyRef Name="vehiculoID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="vehiculoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dboConcesionariosModelStoreContainer">
+          <EntitySet Name="Concesionarios" EntityType="Self.Concesionarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Direcciones" EntityType="Self.Direcciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehiculos" EntityType="Self.Vehiculos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Concesion__direc__4BAC3F29" Association="Self.FK__Concesion__direc__4BAC3F29">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Concesionarios" EntitySet="Concesionarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__concesion__52593CB8" Association="Self.FK__Stock__concesion__52593CB8">
+            <End Role="Concesionarios" EntitySet="Concesionarios" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__vehiculoI__5165187F" Association="Self.FK__Stock__vehiculoI__5165187F">
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dboConcesionariosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Concesionarios">
+          <Key>
+            <PropertyRef Name="concesionarioID" />
+          </Key>
+          <Property Name="concesionarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccionID" Type="Int32" />
+          <NavigationProperty Name="Direcciones" Relationship="Self.FK__Concesion__direc__4BAC3F29" FromRole="Concesionarios" ToRole="Direcciones" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK__Stock__concesion__52593CB8" FromRole="Concesionarios" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="Direcciones">
+          <Key>
+            <PropertyRef Name="direccionID" />
+          </Key>
+          <Property Name="direccionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="poblacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Concesionarios" Relationship="Self.FK__Concesion__direc__4BAC3F29" FromRole="Direcciones" ToRole="Concesionarios" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="stockID" />
+          </Key>
+          <Property Name="stockID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="concesionarioID" Type="Int32" />
+          <Property Name="vehiculoID" Type="Int32" />
+          <NavigationProperty Name="Concesionarios" Relationship="Self.FK__Stock__concesion__52593CB8" FromRole="Stock" ToRole="Concesionarios" />
+          <NavigationProperty Name="Vehiculos" Relationship="Self.FK__Stock__vehiculoI__5165187F" FromRole="Stock" ToRole="Vehiculos" />
+        </EntityType>
+        <EntityType Name="Vehiculos">
+          <Key>
+            <PropertyRef Name="vehiculoID" />
+          </Key>
+          <Property Name="vehiculoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="km" Type="Int32" />
+          <Property Name="vendido" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK__Stock__vehiculoI__5165187F" FromRole="Vehiculos" ToRole="Stock" />
+        </EntityType>
+        <Association Name="FK__Concesion__direc__4BAC3F29">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="0..1" />
+          <End Role="Concesionarios" Type="Self.Concesionarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="direccionID" />
+            </Principal>
+            <Dependent Role="Concesionarios">
+              <PropertyRef Name="direccionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__concesion__52593CB8">
+          <End Role="Concesionarios" Type="Self.Concesionarios" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concesionarios">
+              <PropertyRef Name="concesionarioID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="concesionarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__vehiculoI__5165187F">
+          <End Role="Vehiculos" Type="Self.Vehiculos" Multiplicity="0..1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehiculos">
+              <PropertyRef Name="vehiculoID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="vehiculoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dboConcesionariosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Concesionarios" EntityType="Self.Concesionarios" />
+          <EntitySet Name="Direcciones" EntityType="Self.Direcciones" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" />
+          <EntitySet Name="Vehiculos" EntityType="Self.Vehiculos" />
+          <AssociationSet Name="FK__Concesion__direc__4BAC3F29" Association="Self.FK__Concesion__direc__4BAC3F29">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Concesionarios" EntitySet="Concesionarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__concesion__52593CB8" Association="Self.FK__Stock__concesion__52593CB8">
+            <End Role="Concesionarios" EntitySet="Concesionarios" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__vehiculoI__5165187F" Association="Self.FK__Stock__vehiculoI__5165187F">
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dboConcesionariosModelStoreContainer" CdmEntityContainer="dboConcesionariosEntities">
+          <EntitySetMapping Name="Concesionarios">
+            <EntityTypeMapping TypeName="dboConcesionariosModel.Concesionarios">
+              <MappingFragment StoreEntitySet="Concesionarios">
+                <ScalarProperty Name="concesionarioID" ColumnName="concesionarioID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccionID" ColumnName="direccionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Direcciones">
+            <EntityTypeMapping TypeName="dboConcesionariosModel.Direcciones">
+              <MappingFragment StoreEntitySet="Direcciones">
+                <ScalarProperty Name="direccionID" ColumnName="direccionID" />
+                <ScalarProperty Name="poblacion" ColumnName="poblacion" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="dboConcesionariosModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="stockID" ColumnName="stockID" />
+                <ScalarProperty Name="concesionarioID" ColumnName="concesionarioID" />
+                <ScalarProperty Name="vehiculoID" ColumnName="vehiculoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehiculos">
+            <EntityTypeMapping TypeName="dboConcesionariosModel.Vehiculos">
+              <MappingFragment StoreEntitySet="Vehiculos">
+                <ScalarProperty Name="vehiculoID" ColumnName="vehiculoID" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="km" ColumnName="km" />
+                <ScalarProperty Name="vendido" ColumnName="vendido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
